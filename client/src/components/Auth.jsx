@@ -3,6 +3,7 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import signinImage from "../assets/signup.jpg";
 const Auth = () => {
+  const cookies = new Cookies();
   const initialState = {
     fullName: "",
     username: "",
@@ -11,9 +12,10 @@ const Auth = () => {
     phoneNumber: "",
     avatarURL: "",
   };
-  const cookies = new Cookies();
+
   const [isSignup, setIsSignup] = useState(false);
   const [form, setForm] = useState(initialState);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -26,7 +28,7 @@ const Auth = () => {
 
     const URL = "http://localhost:3500/auth";
     const {
-      data: { token, userId, hashedPassword },
+      data: { token, userId, hashedPassword, fullName },
     } = await axios.post(`${URL}/${isSignup ? "signup" : "login"}`, {
       username,
       password,
@@ -36,6 +38,7 @@ const Auth = () => {
     });
     cookies.set("token", token);
     cookies.set("username", username);
+    cookies.set("fullName", fullName);
     cookies.set("userId", userId);
     if (isSignup) {
       cookies.set("phoneNumber", phoneNumber);

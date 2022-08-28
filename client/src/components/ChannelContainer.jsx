@@ -1,5 +1,6 @@
-import { Channel, useChatContext, MessageTeam } from "stream-chat-react";
+import { Channel, MessageTeam } from "stream-chat-react";
 import { ChannelInner, CreateChannel, EditChannel } from "./";
+
 const EmptyState = () => (
   <div className="channel-empty__container">
     <p className="channel-empty__first">Start of Chat History</p>
@@ -9,11 +10,10 @@ const EmptyState = () => (
 const ChannelContainer = ({
   isCreating,
   setIsCreating,
-  isEditing,
   setIsEditing,
   createType,
+  isEditing,
 }) => {
-  const { channel } = useChatContext();
   if (isCreating) {
     return (
       <div className="channel__container">
@@ -24,10 +24,7 @@ const ChannelContainer = ({
   if (isEditing) {
     return (
       <div className="channel__container">
-        <EditChannel
-          setIsEditing={setIsEditing}
-          setIsCreating={setIsCreating}
-        />
+        <EditChannel setIsEditing={setIsEditing} />
       </div>
     );
   }
